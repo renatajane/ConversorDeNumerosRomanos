@@ -73,9 +73,6 @@
             for (var i = 0; i < numeroRomano.length; i++) {
                 var atual = numerosRomanos[numeroRomano[i]];
                 var proximo = numerosRomanos[numeroRomano[i + 1]];
-                // 10   5
-                // 5    1
-                // 1    --
                 if (proximo && atual < proximo) {
                     numeroDecimal -= atual;
                 } else {
