@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Conversor de Números Romanos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .centrado {
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: #CC0066;
+        }
+        
+        strong {
+            margin-top: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        input[type="button"] {
+            padding: 8px 16px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        
+        #resultadoDecimais,
+        #resultadoRomanos {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
+            width: 200px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+ 
+    <script>
+           //xvi
+            function converterNumeroRomano() {
+            var numeroRomano = document.getElementById("string").value.toUpperCase();
+            var numerosRomanos = {
+                "I": 1,
+                "V": 5,
+                "X": 10,
+                "L": 50,
+                "C": 100,
+                "D": 500,
+                "M": 1000
+            };
+
+            var numeroDecimal = 0;
+            for (var i = 0; i < numeroRomano.length; i++) {
+                var atual = numerosRomanos[numeroRomano[i]];
+                var proximo = numerosRomanos[numeroRomano[i + 1]];
+                // 10   5
+                // 5    1
+                // 1    --
+                if (proximo && atual < proximo) {
+                    numeroDecimal -= atual;
+                } else {
+                    numeroDecimal += atual;
+                }
+            }
+
+           document.getElementById("resultadoDecimais").innerHTML = numeroDecimal ;
+        }
+
+        function converterNumeroDecimal() {
+            var numeroDecimal = document.getElementById("numero").value;
+            var numerosRomanos = [
+                { valor: 1000, romano: 'M' },
+                { valor: 900, romano: 'CM' },
+                { valor: 500, romano: 'D' },
+                { valor: 400, romano: 'CD' },
+                { valor: 100, romano: 'C' },
+                { valor: 90, romano: 'XC' },
+                { valor: 50, romano: 'L' },
+                { valor: 40, romano: 'XL' },
+                { valor: 10, romano: 'X' },
+                { valor: 9, romano: 'IX' },
+                { valor: 5, romano: 'V' },
+                { valor: 4, romano: 'IV' },
+                { valor: 1, romano: 'I' }
+            ];
+
+            var numeroRomano = '';
+
+            for (var i = 0; i < numerosRomanos.length; i++) {
+                while (numeroDecimal >= numerosRomanos[i].valor) {
+                    numeroRomano += numerosRomanos[i].romano;
+                    numeroDecimal -= numerosRomanos[i].valor;
+                }
+            }
+
+            document.getElementById("resultadoRomanos").innerHTML = numeroRomano;
+        }
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            var inputNumero = document.getElementById("numero");
+        
+        inputNumero.addEventListener("input", function() {
+            var valor = parseInt(inputNumero.value);
+            
+            if (isNaN(valor)) {
+                inputNumero.value = "";
+            } else {
+                var limiteMinimo = 1;
+                var limiteMaximo = 3999;
+                
+                if (valor < limiteMinimo) {
+                    inputNumero.value = limiteMinimo;
+                } else if (valor > limiteMaximo) {
+                    inputNumero.value = limiteMaximo;
+                }
+            }
+        });            
+        });
+
+
+    </script>
+</head>
+<body>
+    <div class="centrado">
+    <h2>Conversor de Números Romanos</h2>
+    </div>
+    <strong>Conversor de Números Romanos para Decimais</strong>
+    <label for="string">Insira um número romano:</label>
+    <input id="string" name="string">
+    <input type="button" value="Converter" onclick="converterNumeroRomano()">
+    <label id="resultadoDecimais"></label>
+    <br/>
+    <strong>Conversor de Números Decimais para Romanos</strong>
+    <label for="numero">Insira um número arábico:</label>
+    <input type="number" id="numero" name="numero" min="1" max="3999">
+    <input type="button" value="Converter" onclick="converterNumeroDecimal()">
+    <label id="resultadoRomanos"></label>
+</body>
+</html>
